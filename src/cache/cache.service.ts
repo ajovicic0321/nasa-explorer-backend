@@ -9,12 +9,24 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly configService: ConfigService) { }
 
   onModuleInit() {
-    this.client = new Redis({
+    const redisConfig: any = {
       host: this.configService.get('cache.host'),
       port: this.configService.get('cache.port'),
       password: this.configService.get('cache.password'),
       db: this.configService.get('cache.db'),
-    });
+      retryDelayOnFailover: 100,
+      maxRetriesPerRequest: 3,
+      lazyConnect: true,
+    };
+
+    // Add TLS configuration if REDIS_TLS is enabled
+    if (this.configService.get('cache.tls')) {
+      redisConfig.tls = {
+        rejectUnauthorized: false,
+      };
+    }
+
+    this.client = new Redis(redisConfig);
   }
 
   async get(key: string): Promise<string | null> {
