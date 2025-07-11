@@ -5,7 +5,7 @@
       "src": "dist/main.js",
       "use": "@vercel/node"
     }
-  ],
+  ], 
   "routes": [
     {
       "src": "/api/(.*)",
