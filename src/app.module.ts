@@ -12,6 +12,8 @@ import { MarsModule } from './mars/mars.module';
 import { NeoModule } from './neo/neo.module';
 import { SearchModule } from './search/search.module';
 import { StatsModule } from './stats/stats.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { StatsModule } from './stats/stats.module';
     SearchModule,
     StatsModule
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
